@@ -97,11 +97,10 @@ class EVSESensor(CoordinatorEntity, SensorEntity):
         new_value = self.coordinator.data.get(self._key)
         if self._key == "systemTime":
             try:
-                old_str = str(self._attr_native_value)
-                new_str = str(new_value)
-                fmt = "%H:%M:%S"
-                old_dt = datetime.strptime(old_str, fmt)
-                new_dt = datetime.strptime(new_str, fmt)
+                old = int(self._attr_native_value)
+                new = int(new_value)
+                old_dt = datetime.fromtimestamp(old)
+                new_dt = datetime.fromtimestamp(new)
                 if abs((new_dt - old_dt).total_seconds()) <= 2:
                     return
             except Exception as err:
